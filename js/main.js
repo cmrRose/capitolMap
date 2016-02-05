@@ -4,13 +4,17 @@ var currentFloor = 0; //variable to determine the floor displayed on the map
 var currentVector = floor0vector;
 var displayedVector;
 
-var floorBtile = 'carolinerose.hmoh3m0b';
-var floor0tile = 'carolinerose.hmok6jga';
-var floor1tile = 'carolinerose.hmop8bme';
-var floor2tile = 'carolinerose.hmp0d9bh';
-var floor3tile = 'carolinerose.hmp1b275';
-var floor4tile = 'carolinerose.hmp1g40c';
-
+var floorBtile = 'carolinerose.nnib2o6r';
+//var floor0tile = 'carolinerose.hmok6jga';
+var floor0tile = 'carolinerose.og4g3nmi';
+//var floor1tile = 'carolinerose.hmop8bme';
+var floor1tile = 'carolinerose.xm2qehfr';
+//var floor2tile = 'carolinerose.hmp0d9bh';
+var floor2tile = 'carolinerose.21rftj4i';
+//var floor3tile = 'carolinerose.hmp1b275';
+var floor3tile = 'carolinerose.t2jwz5mi';
+//var floor4tile = 'carolinerose.hmp1g40c';
+var floor4tile = 'carolinerose.mv0ftj4i'
 
 //move to front function
 d3.selection.prototype.moveToFront = function() {
@@ -32,16 +36,33 @@ function setMap() {  //called by initialize function
 
 	//create the map and set its initial view
 	//start on the ground floor.
-	map = L.mapbox.map('map', 'carolinerose.hmok6jga',{minZoom: 16})
+	map = L.mapbox.map('map', 
+                        'carolinerose.og4g3nmi',
+                       {minZoom: 16})
 		.setView([43.0746,-89.3842], 20);
 
-		
+    L.control.scale({position: 'topright'}).addTo(map);
+    
+    
+	//base tiles
+ /*  var baselayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+});*/
+   var baselayer = L.tileLayer('https://api.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY2Fyb2xpbmVyb3NlIiwiYSI6Ik55TUFmMVEifQ.ybZm7IghE2N0ezsMfaDNFQ', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Mapbox'}
+    
+    );
+    
+    
+    baselayer.addTo(map);
+  
+    
 	// add functionality for reset zoom button	
 	//setOperators();
 
-
+    
 	//add the json overlay to the map
 	leafJSON(map);
+    floorSet(currentFloor, 0);
 
 } //end setMap function
 
@@ -55,9 +76,10 @@ function leafJSON(map){
 	
 	//default style is invisible
 	var defaultStyle = {
-			color: "none",
+			color: "none", //blue: '#1f3dd0'
 			fillColor: "#424242",
             fillOpacity: 0.0
+           
 		};
 	
 	var highlightStyle = {
